@@ -1,0 +1,34 @@
+/*criando a tabela de produtos*/
+CREATE TABLE produtos(
+	ID_produto SERIAL PRIMARY KEY,
+	nome VARCHAR(50) UNIQUE NOT NULL,
+	marca VARCHAR(50),
+	preco REAL NOT NULL,
+	CHECK(nome ~ '^[A-Z, a-z, , À-û, 0-9]+$'),
+	CHECK(marca ~ '^[A-Z, a-z, , À-û, 0-9]+$'),
+	CHECK(preco > 0)
+);
+
+/*inserindo alguns produtos*/
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Barra de Chocolar Herkeys', 'Herkeys', 6);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Latinha Cosa Loca', 'Cosa Loca', 5);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Latinha Sprito', 'Sprito', 5);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Latinha Fantos', 'Fantos', 5);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Salgadinho Boritos Grande', 'Velma Chips', 8);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Salgadinho Boritos Pequeno', 'Velma Chips', 4);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Loção Especial Naturo', 'Naturo', 12);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Pacote de TV a cabo Padrão', 'TVS', 22);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Pacote de TV a cabo Padrão', 'TVS', 22);
+INSERT INTO produtos (nome, marca, preco)
+VALUES ('Pacote de TV a cabo Completo', 'TVS', 56);
+
+SELECT * FROM produtos;

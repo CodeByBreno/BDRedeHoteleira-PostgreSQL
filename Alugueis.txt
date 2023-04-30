@@ -1,0 +1,108 @@
+SELECT * FROM quartos;
+
+CREATE TABLE alugueis(
+	fk_quartos SERIAL,
+	fk_clientes SERIAL,
+	data_in DATE NOT NULL,
+	data_fim DATE NOT NULL,
+	num_pessoas INT NOT NULL,
+	valor_aluguel REAL,
+	CHECK(valor_aluguel >= 0),
+	CHECK(num_pessoas > 0),
+	CONSTRAINT fk_quartos FOREIGN KEY(fk_quartos) REFERENCES quartos(id_quarto),
+	CONSTRAINT fk_clientes FOREIGN KEY(fk_clientes) REFERENCES clientes(id_cliente),
+	CHECK(data_in < data_fim)
+);
+
+INSERT INTO alugueis(fk_quartos, fk_clientes, data_in, data_fim, num_pessoas)
+VALUES (2, 5, '12/02/1990', '15/02/1990', 1);
+INSERT INTO alugueis(fk_quartos, fk_clientes, data_in, data_fim, num_pessoas)
+VALUES (2, 3, '18/03/1990', '26/03/1990', 4);
+INSERT INTO alugueis(fk_quartos, fk_clientes, data_in, data_fim, num_pessoas)
+VALUES (3, 4, '20/05/1990', '26/05/1990', 2);
+INSERT INTO alugueis(fk_quartos, fk_clientes, data_in, data_fim, num_pessoas)
+VALUES (6, 6, '27/05/1990', '30/05/1990', 2);
+INSERT INTO alugueis(fk_quartos, fk_clientes, data_in, data_fim, num_pessoas)
+VALUES (5, 3, '20/06/1990', '02/07/1990', 5);
+
+SELECT * FROM quartos;
+
+SELECT * FROM alugueis;
+DROP TABLE alugueis;
+SELECT * FROM quartos;
+SELECT * FROM clientes;
+
+SELECT * 
+FROM cargos
+WHERE salario BETWEEN 2000 AND 4000;
+
+CREATE OR REPLACE FUNCTION determinar_aluguel()
+RETURNS TRIGGER
+AS $$
+	DECLARE
+		varCliente BOOLEAN;
+		varValorDiaria REAL;
+	BEGIN
+		SELECT tipo
+		INTO varCliente
+		FROM clientes
+		WHERE id_cliente = NEW.fk_clientes;
+		
+		SELECT valor_diaria
+		INTO varValorDiaria
+		FROM quartos
+		WHERE id_quarto = NEW.fk_quartos;
+		
+		IF (varCliente) THEN
+			NEW.valor_aluguel = 0.9 * varValorDiaria;
+		ELSE
+			NEW.valor_aluguel = varValorDiaria;
+		END IF;		
+		RETURN NEW;
+	END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER atualiza_valor
+BEFORE INSERT ON alugueis
+FOR EACH ROW 
+EXECUTE PROCEDURE determinar_aluguel();
+
+CREATE OR REPLACE TRIGGER confere_data
+BEFORE INSERT ON alugueis
+FOR EACH ROW 
+EXECUTE PROCEDURE verifica_data();
+
+CREATE OR REPLACE FUNCTION verifica_data()
+RETURNS trigger
+AS $$
+	DECLARE 
+		i INT := 0;
+		N INT;
+		varData_in DATE;
+		varData_fim DATE;
+	BEGIN
+		SELECT COUNT(*)
+		INTO n
+		FROM alugueis;
+		
+		IF n = 0 THEN
+			RETURN NEW;
+		END IF;
+			
+		WHILE (i < n) LOOP
+			SELECT data_in, data_fim
+			INTO varData_in, varData_fim
+			FROM alugueis
+			LIMIT 1 OFFSET i;
+			
+			IF ((NEW.data_fim BETWEEN varData_in AND varData_fim) OR 
+				(NEW.data_in BETWEEN varData_in AND varData_fim)) THEN
+				RAISE EXCEPTION 'Esse intervalo já foi alugado!';
+				RETURN OLD;
+			ELSE
+				RETURN NEW;
+			END IF;
+			i = i + 1;
+		END LOOP;
+	END;
+$$ LANGUAGE plpgsql;

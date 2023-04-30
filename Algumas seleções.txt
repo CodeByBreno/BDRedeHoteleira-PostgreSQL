@@ -1,0 +1,123 @@
+
+SELECT tb1.tipo, AVG(tb1.valor_diaria) 
+FROM quartos tb1 
+INNER JOIN hoteis tb2
+ON tb1.hotel = tb2.id_hotel
+WHERE tb2.id_hotel = 4
+GROUP BY tb1.tipo;
+
+SELECT tb1.nome, tb2.cidade, tb2.estado, tb2.bairro, tb2.rua, tb2.numero
+FROM hoteis tb1
+LEFT JOIN enderecos tb2
+ON tb1.endereco = tb2.id_endereco;
+
+SELECT nome, lot_max
+FROM hoteis
+GROUP BY nome, lot_max;
+
+SELECT tb2.nome, tb2.tipo, tb2.lot_max as Total_de_Quartos, 
+tb2.lot_max - COUNT(tb1.num_quarto) as Quartos_Vagos, 
+COUNT(tb1.num_quarto) as Quartos_Ocupados
+FROM quartos tb1
+INNER JOIN hoteis tb2
+ON tb1.hotel = tb2.id_hotel
+GROUP BY tb2.nome, tb2.tipo, tb2.lot_max
+ORDER BY nome ASC;
+
+SELECT * FROM hoteis;
+
+UPDATE hoteis 
+SET lot_max = 30
+WHERE id_hotel = 2;
+UPDATE hoteis 
+SET lot_max = 20
+WHERE id_hotel = 3;
+UPDATE hoteis 
+SET lot_max = 50
+WHERE id_hotel = 4;
+UPDATE hoteis 
+SET lot_max = 60
+WHERE id_hotel = 5;
+
+SELECT * FROM r_quartos_produtos;
+
+SELECT LPAD(q.num_quarto::text, 4, '0') as num_quarto,
+h.nome as hotel, prd.nome as produto, r.qtd_produto 
+FROM (quartos q 
+INNER JOIN r_quartos_produtos r
+ON q.id_quarto = r.fk_quarto
+INNER JOIN produtos prd
+ON prd.id_produto = r.fk_produto)
+INNER JOIN hoteis h
+ON h.id_hotel = q.hotel;
+
+SELECT COUNT(*) FROM
+r_quartos_produtos r RIGHT JOIN quartos q
+ON r.fk_quarto = q.id_quarto
+WHERE fk_quarto IS NULL ;
+
+SELECT ROUND(AVG(tb1.valor_diaria)) as diaria_media, tb2.nome
+FROM quartos tb1
+INNER JOIN hoteis tb2
+ON tb1.hotel = tb2.id_hotel
+GROUP BY tb2.nome;
+
+SELECT h.nome, COUNT(q.id_quarto) as quartos_mais_baratos_que_500 FROM
+hoteis h RIGHT JOIN quartos q
+ON h.id_hotel = q.hotel
+WHERE q.valor_diaria <= 500
+GROUP BY h.nome;
+
+SELECT SUM(cr.salario) as Despesas_Funcionarios
+FROM funcionarios f
+INNER JOIN cargos cr
+ON f.cargo = cr.id_cargo;
+
+SELECT SUM(cargos.salario)
+FROM cargos;
+
+SELECT cr.area, SUM(cr.salario) as Despesas_Funcionarios
+FROM funcionarios f
+INNER JOIN cargos cr
+ON f.cargo = cr.id_cargo
+GROUP BY cr.area;
+
+SELECT cl.nome, cl.cpf
+FROM clientes cl
+INTERSECT
+SELECT f.nome, f.cpf
+FROM funcionarios f;
+
+SELECT cr.area, ROUND(AVG(cr.salario)) as Salario_Medio
+FROM funcionarios f
+INNER JOIN cargos cr
+ON f.cargo = cr.id_cargo
+GROUP BY cr.area;
+
+SELECT f.nome, h.nome, cargos.salario
+FROM funcionarios f 
+INNER JOIN hoteis h
+ON f.hotel_contratante = h.id_hotel
+INNER JOIN cargos 
+ON f.cargo = cargos.id_cargo
+GROUP BY f.nome, h.nome, cargos.salario
+HAVING cargos.salario > 3000;
+
+SELECT TRUNC(AVG(LENGTH(f.nome)))
+FROM funcionarios f;
+
+SELECT * FROM cargos;
+SELECT * FROM funcionarios;
+
+SELECT h.nome, COUNT(cr.nome)
+FROM funcionarios f INNER JOIN cargos cr
+ON f.cargo = cr.id_cargo
+INNER JOIN hoteis h
+ON f.hotel_contratante = h.id_hotel
+GROUP BY h.nome
+HAVING cr.nome = 'Faxineira';
+
+
+
+
+

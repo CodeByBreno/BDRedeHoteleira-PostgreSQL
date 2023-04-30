@@ -1,0 +1,39 @@
+CREATE TABLE r_quartos_produtos(
+	fk_quarto SERIAL,
+	fk_produto SERIAL,
+	qtd_produto int,
+	CONSTRAINT r_fk_quarto FOREIGN KEY(fk_quarto) REFERENCES quartos(id_quarto),
+	CONSTRAINT r_fk_produto FOREIGN KEY(fk_produto) REFERENCES produtos(id_produto),
+	CHECK (qtd_produto >= 0)
+);
+
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 2, 10);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 3, 12);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 4, 5);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 5, 3);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 6, 3);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 7, 2);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 8, 2);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (1, 2, 10);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (2, 3, 12);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (2, 4, 5);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (2, 5, 3);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (3, 5, 3);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (3, 6, 3);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (4, 7, 2);
+INSERT INTO r_quartos_produtos(fk_quarto, fk_produto, qtd_produto)
+VALUES (4, 2, 12);

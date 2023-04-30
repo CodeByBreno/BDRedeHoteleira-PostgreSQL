@@ -1,0 +1,97 @@
+set serveroutput on size 10000;
+
+DO $$
+	DECLARE
+		varQtd INT;
+		varNome VARCHAR(50);
+	BEGIN
+		SELECT COUNT(*)
+		INTO varQtd
+		FROM cargos;
+		RAISE NOTICE 'Quantidade de Cargos : %', varQtd;
+		SELECT nome, salario
+		INTO varNome, varQtd
+		FROM cargos ORDER BY salario ASC FETCH FIRST ROW ONLY;
+		RAISE NOTICE 'O cargo % recebe o menor salario, de %', varNome, varQtd;
+		SELECT nome, salario
+		INTO varNome, varQtd
+		FROM cargos ORDER BY salario DESC FETCH FIRST ROW ONLY;
+		RAISE NOTICE 'O cargo % recebe o maior salario, de %', varNome, varQtd;
+	END;
+$$;
+
+SELECT * 
+FROM hoteis
+WHERE lot_max BETWEEN 20 and 50;
+
+SELECT h.nome, h.tipo, CONCAT(e.rua, ' ', e.numero::text, ', ', e.bairro, ', ', e.cidade, ' (', e.estado, ')') as Endereço
+FROM enderecos e
+RIGHT JOIN hoteis h
+ON e.id_endereco = h.endereco;
+
+SELECT CONCAT(nome, ', ', marca) as produto, CONCAT('R$ ', preco) as preço 
+FROM produtos;
+
+DO $$
+	DECLARE
+		varProduto produtos%ROWTYPE;
+		N INT;
+		i INT DEFAULT 1;
+	BEGIN
+		SELECT COUNT(*)
+		INTO N
+		FROM produtos;
+		
+		LOOP
+			SELECT *
+			INTO varProduto
+			FROM produtos
+			LIMIT 1 OFFSET i;
+			IF (varProduto.preco <= 10) THEN 
+				RAISE NOTICE '% : %', i, varProduto;
+			END IF;
+			i = i + 1;
+			EXIT WHEN i = N;
+		END LOOP;
+	END;
+$$;
+
+CREATE OR REPLACE PROCEDURE Buscar(
+	texto IN VARCHAR(50))
+LANGUAGE plpgsql
+AS $$
+	DECLARE
+		i INT := 0;
+		N INT;
+		bandeira BOOL := false;
+		varNome VARCHAR(50);
+	BEGIN
+		SELECT COUNT(*)
+		INTO N
+		FROM clientes;
+		
+		LOOP
+			--seleciona o nome
+			SELECT nome
+			INTO varNome
+			FROM clientes
+			LIMIT 1 OFFSET i;
+			
+			texto := INITCAP(texto);
+			IF (INITCAP(varNome) LIKE CONCAT('%', texto, '%')) THEN
+				bandeira := true;
+				RAISE NOTICE '% : %', i::text, varNome;
+			END IF;
+			i := i + 1;
+			EXIT WHEN i = N;
+		END LOOP;
+
+		IF (bandeira = false) THEN 
+			RAISE NOTICE 'Nenhum nome compatível';
+		END IF;
+	END;
+$$;
+
+CALL buscar('BReNo');
+CALL buscar('Souza');
+CALL buscar('J');

@@ -1,0 +1,29 @@
+CREATE TABLE consumiu(
+	fk_cliente SERIAL,
+	fk_produto SERIAL,
+	qtd_consumida INT,
+	CHECK (qtd_consumida > 0),
+	CONSTRAINT r_fk_cliente FOREIGN KEY(fk_cliente) REFERENCES clientes(id_cliente),
+	CONSTRAINT r_fk_produto FOREIGN KEY(fk_produto) REFERENCES produtos(id_produto)
+);
+
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (1, 1, 2);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (1, 2, 1);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (1, 5, 5);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (1, 4, 2);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (7, 7, 1);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (3, 8, 1);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (3, 6, 2);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (4, 9, 1);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (5, 3, 5);
+INSERT INTO consumiu (fk_cliente, fk_produto, qtd_consumida)
+VALUES (5, 1, 12);

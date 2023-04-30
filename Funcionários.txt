@@ -1,0 +1,69 @@
+CREATE TABLE funcionarios(
+	ID_funcionario SERIAL PRIMARY KEY,
+	nome VARCHAR(45) NOT NULL,
+	CPF varchar(11) NOT NULL UNIQUE,
+	tempo_trabalho int,
+	hotel_contratante SERIAL,
+	cargo SERIAL,
+	CHECK(tempo_trabalho > 0),
+	CHECK(nome ~ '^[A-Z, a-z, , À-û]+$'),
+	CONSTRAINT fk_hotel FOREIGN KEY(hotel_contratante) REFERENCES hoteis(id_hotel),
+	CONSTRAINT fk_cargo FOREIGN KEY(cargo) REFERENCES cargos(id_cargo)
+);
+ 
+SELECT * FROM funcionarios;
+SELECT * FROM cargos;
+
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Maria Suzana Nascimento', '88811245366', 40, 2, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Valéria Regina da Silva', '22211245366', 40, 2, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Jorge Prado do Vale', '33311245366', 40, 2, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Filomena do Nascimento Jesus', '44411245366', 40, 2, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Julia Maria dos Santos', '88815555366', 40, 3, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Pedro Cavalcanti Prado', '22216665366', 40, 3, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('João de Orvalho Peres', '33311232366', 40, 3, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Luiza Takahashi', '44411415366', 40, 3, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('José Pereira Ferreira Costa Rodrigues ', '88815511266', 40, 5, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Regina Pereira de Santos Pinto', '22236665366', 40, 5, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Breno da Silva Rodrigues', '33388932366', 40, 5, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Luiza Alves de Carvalho', '44557415366', 40, 5, 4);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Pedro de Pinto Souza', '88454511266', 30, 5, 1);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Coelho Salles Rodrigues', '22236667426', 30, 3, 5);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Luiza Oliveira Silva', '39998932366', 35, 2, 8);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Pedro Araújo Oliveira', '44557499966', 40, 2, 9);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Enzo Moraes Silveira', '88451231266', 35, 2, 13);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Carol Oliveira dos Santos', '25586665366', 40, 3, 10);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Breno Gabriel Silveira Salles', '33318932366', 40, 4, 7);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Erik Vanchestofen Coelho', '44557455266', 40, 4, 6);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Gildete Estrela Silveira', '86664511266', 20, 2, 7);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Bruno Campos dos Santos Lima', '22236623666', 35, 2, 7);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Mario Ramos de Souza', '33454932366', 40, 4, 7);
+INSERT INTO funcionarios(nome, cpf, tempo_trabalho, hotel_contratante, cargo)
+VALUES ('Rafael Cordeiro de Souza', '49985415366', 22, 2, 8);
+
+
+
+
+

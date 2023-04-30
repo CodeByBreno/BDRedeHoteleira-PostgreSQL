@@ -1,0 +1,43 @@
+CREATE TABLE clientes (
+	ID_cliente SERIAL PRIMARY KEY,
+	CPF VARCHAR(11) UNIQUE,
+	nome VARCHAR(45) NOT NULL,
+	tipo boolean DEFAULT false
+);
+
+SELECT * FROM clientes;
+SELECT * FROM clientes ORDER BY nome;
+SELECT tipo as VIP, COUNT(tipo) FROM clientes GROUP BY tipo;
+
+/*algumas seleções*/
+SELECT * FROM clientes WHERE nome LIKE 'J%';
+SELECT * FROM clientes WHERE nome LIKE '%Souza%';
+SELECT * FROM clientes WHERE nome LIKE '%Coelho%';
+SELECT * FROM clientes WHERE cpf LIKE '_%1%';
+
+/*constraints novas*/
+ALTER TABLE clientes
+ADD CONSTRAINT cpf_only_numbers CHECK (cpf ~ '^[0-9]');
+ALTER TABLE clientes
+ADD CONSTRAINT nome_only_letters CHECK (nome ~ '^[A-Z, a-z, ]');
+
+/*excluindo constraints erradas*/
+ALTER TABLE clientes
+DROP CONSTRAINT cpf_only_numbers;
+ALTER TABLE clientes
+DROP CONSTRAINT nome_only_letters;
+
+
+/*deletando dados errados*/
+DELETE FROM clientes
+WHERE id_cliente = 16;
+DELETE FROM clientes
+WHERE id_cliente = 17;
+DELETE FROM clientes
+WHERE id_cliente = 20;
+
+/* constraints certas */
+ALTER TABLE clientes
+ADD CONSTRAINT cpf_only_numbers CHECK (cpf ~ '^[0-9]+$');
+ALTER TABLE clientes
+ADD CONSTRAINT nome_only_letters CHECK (nome ~ '^[A-Z,a-z, ,À-û]+$');

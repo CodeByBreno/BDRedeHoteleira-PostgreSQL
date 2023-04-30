@@ -1,0 +1,105 @@
+CREATE TABLE quartos(
+	ID_quarto SERIAL,
+	num_quarto int NOT NULL,
+	tipo VARCHAR(10),
+	valor_diaria REAL NOT NULL,
+	hotel SERIAL,
+	CONSTRAINT unique_quarto_hotel UNIQUE(num_quarto, hotel),
+	CONSTRAINT fk_hoteis_quartos FOREIGN KEY(hotel) REFERENCES hoteis(ID_hotel),
+	CHECK(LOWER(tipo) IN ('casal','familia','solteiro')),
+	CHECK(valor_diaria > 0.0000)
+);
+
+/*inserindo alguns quartos no primeiro hotel (que ficou com pk = 2 por alguma razão)*/
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0001, 'solteiro', 100, 2);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0002, 'familia', 200, 2);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1001, 'familia', 250, 2);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1002, 'casal', 200, 2);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (2001, 'solteiro', 50, 2);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (2002, 'casal', 120, 2);
+
+/*inserindo quartos no segundo hotel*/
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0001, 'solteiro', 20, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0002, 'solteiro', 20, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0003, 'solteiro', 20, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0004, 'solteiro', 20, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0005, 'casal', 50, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0006, 'casal', 50, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0007, 'casal', 50, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0008, 'casal', 50, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1001, 'familia', 100, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1002, 'familia', 120, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1003, 'familia', 80, 3);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1004, 'familia', 120, 3);
+
+/*inserindo quartos no terceiro hotel*/
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0001, 'solteiro', 400, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0002, 'solteiro', 400, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1001, 'solteiro', 400, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1002, 'familia', 800, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (2001, 'casal', 500, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (2002, 'familia', 800, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (3001, 'casal', 600, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (3002, 'casal', 600, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (4001, 'familia', 900, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (4002, 'familia', 900, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (5001, 'casal', 700, 4);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (5002, 'casal', 650, 4);
+
+/*inserindo quartos no quarto hotel*/
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0001, 'solteiro', 2000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (0002, 'solteiro', 2000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1001, 'solteiro', 2000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (1002, 'solteiro', 2000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (2001, 'solteiro', 2000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (2002, 'solteiro', 2000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (3001, 'casal', 4000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (3002, 'casal', 4000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (4001, 'familia', 5000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (4002, 'familia', 5000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (5001, 'casal', 6000, 5);
+INSERT INTO quartos(num_quarto, tipo, valor_diaria, hotel)
+VALUES (5002, 'casal', 6000, 5);
+
+SELECT * FROM hoteis;

@@ -1,0 +1,53 @@
+CREATE TABLE hoteis(
+	ID_hotel SERIAL PRIMARY KEY,
+	nome VARCHAR(45) UNIQUE NOT NULL,
+	tipo VARCHAR(12) NOT NULL DEFAULT 'comum',
+	lot_max int NOT NULL DEFAULT 200,
+	endereco SERIAL,
+	CONSTRAINT fk_hoteis_endereco FOREIGN KEY(endereco) REFERENCES enderecos(ID_endereco),
+	CHECK(nome ~ '^[A-Z, a-z, , À-û]+$'),
+	CHECK(tipo IN ('Comum', 'Luxo', 'Pousada', '5 estrelas')),
+	CHECK(lot_max >= 200)
+);
+
+DROP TABLE hoteis;
+
+SELECT * FROM hoteis;
+
+/*adicionando alguns hoteis*/
+INSERT INTO hoteis(nome, tipo, lot_max, endereco)
+VALUES ('Rio Grande', 'Comum', 300, 1);
+INSERT INTO hoteis(nome, tipo, endereco)
+VALUES ('Cidade Maravilhosa', 'Pousada', 2);
+INSERT INTO hoteis(nome, tipo, lot_max, endereco)
+VALUES ('Águia dos Reis', 'Luxo', 450, 3);
+INSERT INTO hoteis(nome, tipo, lot_max, endereco)
+VALUES ('Águas Claras', '5 estrelas', 500, 4);
+
+CREATE TABLE enderecos(
+	ID_endereco SERIAL PRIMARY KEY,
+	cidade VARCHAR(20) NOT NULL,
+	estado VARCHAR(2) NOT NULL,
+	bairro VARCHAR(50) NOT NULL,
+	rua VARCHAR(50) NOT NULL,
+	numero int NOT NULL,
+	CHECK(cidade ~ '^[A-Z, a-z, , À-û]+$'),
+	CHECK(estado ~ '^[A-Z, a-z, , À-û]+$'),
+	CHECK(bairro ~ '^[A-Z, a-z, , À-û, 0-9]+$'),
+	CHECK(rua ~ '^[A-Z, a-z, , À-û, 0-9]+$')
+);
+ 
+SELECT * FROM enderecos;
+
+INSERT INTO enderecos(cidade, estado, bairro, rua, numero)
+VALUES ('Petrolina', 'PE', 'Areia Branca', 'Rua Arco Verde', 902);
+INSERT INTO enderecos(cidade, estado, bairro, rua, numero)
+VALUES ('São Paulo', 'SP', 'Bairro X', 'Rua Felipe 2', 202);
+INSERT INTO enderecos(cidade, estado, bairro, rua, numero)
+VALUES ('Petrolina', 'PE', 'Orla', 'Rua Coelho', 86);
+INSERT INTO enderecos(cidade, estado, bairro, rua, numero)
+VALUES ('Recife', 'PE', 'Madalena', 'Rua José Sarney', 100);
+
+
+	
+	
